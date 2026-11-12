@@ -3,849 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>План учебного проекта</title>
-  <meta name="description" content="Готовый инструмент для составления плана учебного проекта">
+  <meta name="theme-color" content="#eef3fb">
+  <meta name="description" content="Бесплатный онлайн-планировщик учебного проекта: продумайте идею, составьте этапы и скачайте готовый план в PDF.">
+  <title>План проекта — учебный проект без хаоса</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #eef3fb;
-      --bg-strong: #dfe9ff;
-      --surface: rgba(255,255,255,0.78);
-      --surface-strong: #fff;
-      --ink: #1d254f;
-      --muted: #586489;
-      --line: #c7d6f5;
-      --accent: #ffb020;
-      --accent-ink: #1d254f;
-      --focus: #3b5bdb;
-      --shadow: rgba(37, 53, 101, 0.12);
-      --success: #2e8b57;
-      --radius: 22px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg: #101831;
-        --bg-strong: #1b244d;
-        --surface: rgba(27,34,80,0.9);
-        --surface-strong: #1b2250;
-        --ink: #edf3ff;
-        --muted: #a8b5df;
-        --line: #2f3a78;
-        --accent: #ffbf49;
-        --focus: #8ea2ff;
-        --shadow: rgba(1, 4, 15, 0.48);
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --bg: #101831;
-      --bg-strong: #1b244d;
-      --surface: rgba(27,34,80,0.9);
-      --surface-strong: #1b2250;
-      --ink: #edf3ff;
-      --muted: #a8b5df;
-      --line: #2f3a78;
-      --accent: #ffbf49;
-      --focus: #8ea2ff;
-      --shadow: rgba(1, 4, 15, 0.48);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(255, 176, 32, 0.18), transparent 30%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg-strong) 100%);
-      color: var(--ink);
-      font-family: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
-      line-height: 1.5;
-      font-size: 17px;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .shell {
-      width: min(1100px, calc(100% - 24px));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(14px);
-      background: rgba(238, 243, 251, 0.68);
-      border-bottom: 1px solid rgba(199, 214, 245, 0.8);
-    }
-
-    :root[data-theme="dark"] .site-header,
-    @media (prefers-color-scheme: dark) {
-      .site-header {
-        background: rgba(16, 24, 49, 0.72);
-      }
-    }
-
-    .site-header .shell {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 14px 0;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-badge {
-      width: 32px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #ffd777);
-      color: var(--accent-ink);
-      box-shadow: 0 10px 24px rgba(255, 176, 32, 0.35);
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 0.96rem;
-      font-weight: 600;
-    }
-
-    .nav a {
-      transition: color 0.2s ease;
-    }
-
-    .nav a:hover,
-    .nav a:focus-visible {
-      color: var(--ink);
-    }
-
-    .theme-toggle {
-      border: 2px solid var(--line);
-      background: var(--surface);
-      color: var(--ink);
-      border-radius: 999px;
-      padding: 9px 14px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .hero {
-      padding: 68px 0 36px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 26px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 176, 32, 0.14);
-      color: var(--ink);
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 176, 32, 0.24);
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 18px 0 16px;
-      font-family: "Unbounded", "Onest", sans-serif;
-      font-size: clamp(2.4rem, 6vw, 4.25rem);
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-    }
-
-    .lead {
-      max-width: 58ch;
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 1.08rem;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-
-    .btn {
-      appearance: none;
-      border: 2px solid var(--ink);
-      border-radius: 12px;
-      background: transparent;
-      color: var(--ink);
-      font: inherit;
-      font-weight: 700;
-      padding: 13px 20px;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-    }
-
-    .btn:hover,
-    .btn:focus-visible {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 24px rgba(27, 37, 79, 0.1);
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      border-color: var(--ink);
-      color: var(--accent-ink);
-    }
-
-    .mini-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .mini-stats strong {
-      display: block;
-      color: var(--ink);
-      font-size: 1.25rem;
-      margin-bottom: 2px;
-    }
-
-    .panel {
-      background: var(--surface);
-      border: 2px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 18px 40px var(--shadow);
-      padding: 20px;
-    }
-
-    .preview-card {
-      position: relative;
-      padding: 18px;
-      border-radius: 18px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
-      border: 1px solid rgba(199, 214, 245, 0.9);
-    }
-
-    .preview-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .dots {
-      display: inline-flex;
-      gap: 7px;
-    }
-
-    .dots span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(29, 37, 79, 0.25);
-    }
-
-    .preview-head .tag {
-      background: rgba(255, 176, 32, 0.15);
-      border: 1px solid rgba(255, 176, 32, 0.2);
-      border-radius: 999px;
-      color: var(--ink);
-      padding: 5px 9px;
-      font-weight: 700;
-      font-size: 0.75rem;
-    }
-
-    .list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .check-item {
-      display: grid;
-      grid-template-columns: 22px 1fr;
-      gap: 10px;
-      align-items: start;
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-    }
-
-    .check {
-      width: 22px;
-      height: 22px;
-      border-radius: 7px;
-      background: linear-gradient(180deg, #7ecf9f, #5ea97a);
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 900;
-      font-size: 0.82rem;
-    }
-
-    .check-item strong {
-      display: block;
-      margin-bottom: 2px;
-      font-size: 0.98rem;
-    }
-
-    .check-item span {
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .feature-section,
-    .app-section {
-      padding: 36px 0 18px;
-    }
-
-    .section-title {
-      margin: 0 0 20px;
-      font-family: "Unbounded", "Onest", sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      letter-spacing: -0.04em;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .feature-card {
-      background: var(--surface);
-      border: 2px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 14px 26px var(--shadow);
-      padding: 22px 18px;
-    }
-
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      background: rgba(255, 176, 32, 0.15);
-      margin-bottom: 14px;
-      font-size: 1.5rem;
-    }
-
-    .feature-card h3 {
-      margin: 0 0 8px;
-      font-size: 1.2rem;
-    }
-
-    .feature-card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .app-shell {
-      background: var(--surface);
-      border: 2px solid var(--line);
-      border-radius: 28px;
-      padding: 18px;
-      box-shadow: 0 18px 40px var(--shadow);
-    }
-
-    .planner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .planner-wrap {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(199, 214, 245, 0.45);
-      border-radius: 18px;
-      padding: 12px;
-    }
-
-    .planner-page {
-      background: rgba(255,255,255,0.05);
-      border-radius: 18px;
-      padding: 8px;
-    }
-
-    .site-footer {
-      padding: 30px 0 50px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    @media (max-width: 860px) {
-      .hero-grid,
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .site-header .shell {
-        flex-wrap: wrap;
-      }
-
-      .nav {
-        width: 100%;
-        justify-content: space-between;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .nav {
-        display: none;
-      }
-
-      .site-header .shell {
-        justify-content: space-between;
-      }
-
-      .hero {
-        padding-top: 46px;
-      }
-
-      .cta-row {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-    }
+    :root{color-scheme:light;--bg:#eef3fb;--bg2:#dfe9ff;--surface:#fff;--ink:#1d254f;--muted:#586489;--line:#c7d6f5;--accent:#ffb020;--accent-ink:#1d254f;--focus:#3b5bdb;--shadow:rgba(37,53,101,.12);--radius:22px}
+    :root[data-theme=dark]{color-scheme:dark;--bg:#101831;--bg2:#1b244d;--surface:#1b2250;--ink:#edf3ff;--muted:#a8b5df;--line:#35427e;--accent:#ffbf49;--focus:#aab8ff;--shadow:rgba(1,4,15,.4)}
+    @media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#101831;--bg2:#1b244d;--surface:#1b2250;--ink:#edf3ff;--muted:#a8b5df;--line:#35427e;--accent:#ffbf49;--focus:#aab8ff;--shadow:rgba(1,4,15,.4)}}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(circle at 8% 2%,rgba(255,176,32,.18),transparent 25%),linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);font:17px/1.55 Onest,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.shell{width:min(1120px,calc(100% - 32px));margin-inline:auto}
+    .header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--accent);box-shadow:0 8px 20px rgba(255,176,32,.25);font-weight:800}.nav{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:.94rem;font-weight:600}.nav a:hover{color:var(--ink)}.theme-toggle,.menu-toggle{border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);padding:9px 14px;font-weight:700;cursor:pointer}.menu-toggle{display:none}
+    .hero{padding:76px 0 52px}.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:44px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:999px;background:color-mix(in srgb,var(--accent) 15%,transparent);font-size:.8rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.hero h1,.section-title{font-family:Unbounded,Onest,sans-serif;letter-spacing:-.045em}.hero h1{font-size:clamp(2.5rem,6.6vw,4.7rem);line-height:1.04;margin:20px 0}.lead{max-width:60ch;color:var(--muted);font-size:1.08rem;margin:0 0 25px}.button-row{display:flex;flex-wrap:wrap;gap:12px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2px solid var(--ink);border-radius:12px;padding:12px 19px;background:transparent;color:var(--ink);font-weight:700;cursor:pointer;transition:transform .18s,box-shadow .18s}.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 24px var(--shadow)}.btn.primary{background:var(--accent);color:var(--accent-ink)}.btn:disabled{opacity:.45;cursor:not-allowed}.stats{display:flex;flex-wrap:wrap;gap:26px;margin-top:27px;color:var(--muted);font-size:.9rem}.stats strong{display:block;color:var(--ink);font-size:1.3rem}.preview{padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--surface);box-shadow:0 20px 50px var(--shadow);transform:rotate(1deg)}.preview-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.dots{display:flex;gap:6px}.dots i{height:9px;width:9px;border-radius:50%;background:var(--line)}.badge{border-radius:999px;padding:5px 10px;background:color-mix(in srgb,#3eaa70 15%,transparent);color:#23804c;font-weight:700;font-size:.8rem}.preview-row{display:flex;gap:12px;align-items:flex-start;padding:13px 10px;border-top:1px solid var(--line)}.tick{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:#48a974;color:#fff;font-weight:800}.preview-row strong,.preview-row small{display:block}.preview-row small{color:var(--muted);margin-top:3px}
+    .section{padding:42px 0}.section-title{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;margin:0 0 12px}.section-intro{max-width:62ch;color:var(--muted);margin:0 0 24px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.tile{height:100%;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:0 12px 30px var(--shadow)}.tile-icon{display:grid;place-items:center;width:46px;height:46px;margin-bottom:14px;border-radius:14px;background:color-mix(in srgb,var(--accent) 18%,transparent);font-size:1.4rem}.tile h3{margin:0 0 8px;font-size:1.15rem}.tile p{margin:0;color:var(--muted)}.how-number{font-family:Unbounded,sans-serif;font-size:1.15rem;color:#ae6c00}
+    .planner-outer{padding:18px;border:1px solid var(--line);border-radius:28px;background:var(--surface);box-shadow:0 20px 45px var(--shadow)}#app-root{--app-bg:var(--bg);--app-surface:var(--surface);--app-ink:var(--ink);--app-muted:var(--muted);--app-line:var(--line);--app-accent:var(--accent);--app-focus:var(--focus)}.faq{display:grid;grid-template-columns:1fr 1fr;gap:14px}.faq details{padding:18px 20px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.faq summary{font-weight:700;cursor:pointer}.faq p{color:var(--muted);margin:10px 0 0}.footer{margin-top:34px;padding:28px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:.92rem}.footer-inner{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer a{text-decoration:underline;text-underline-offset:3px}
+    /* Planner interface */
+    #app-root .steps{display:flex;gap:6px;overflow-x:auto;list-style:none;padding:0;margin:0 0 22px;border-bottom:2px solid var(--app-line)}#app-root .steps li{white-space:nowrap;padding:9px 12px;margin-bottom:-2px;border-bottom:3px solid transparent;color:var(--app-muted);font-weight:700}#app-root .steps li.done{color:var(--app-ink)}#app-root .steps li[aria-current]{color:var(--app-ink);border-color:var(--app-accent)}#app-root .card{padding:22px;border:1.5px solid var(--app-line);border-radius:16px;background:var(--app-surface);margin-bottom:18px}#app-root .f{margin-top:18px}#app-root .f:first-child{margin-top:0}#app-root .lbl{display:block;font-weight:700;margin-bottom:5px}#app-root .hint{color:var(--app-muted);font-size:.93rem;margin:0 0 9px}#app-root input,#app-root textarea{width:100%;padding:11px 12px;border:1.5px solid var(--app-line);border-radius:10px;background:var(--app-bg);color:var(--app-ink)}#app-root textarea{min-height:86px;resize:vertical}#app-root input:focus,#app-root textarea:focus{border-color:var(--app-focus);outline:none}#app-root .row{display:flex;align-items:center;gap:10px;margin-bottom:8px}#app-root .row input{font-weight:700}#app-root .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}#app-root .btn{font:inherit;font-weight:700;border-radius:10px;padding:11px 16px;border:1.5px solid var(--app-ink);color:var(--app-ink);background:transparent;cursor:pointer}#app-root .btn.primary{background:var(--app-accent);color:#1d254f}#app-root .btn.small{padding:7px 10px;font-size:.9rem;white-space:nowrap}#app-root .btn:disabled{opacity:.45;cursor:not-allowed}#app-root .meta{min-height:1.5em;color:var(--app-muted);font-size:.92rem;margin:11px 2px 0}#app-root .pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}#app-root .card h2{margin:0 0 8px}
+    .pdf-document{position:fixed;left:-10000px;top:0;width:760px;padding:48px;background:#fff;color:#17213f;font:15px/1.6 Arial,sans-serif}.pdf-document h1{font-size:26px;margin:0 0 8px;color:#17213f}.pdf-document h2{font-size:17px;margin:24px 0 6px;padding-bottom:5px;border-bottom:1px solid #c7d6f5;color:#17213f}.pdf-document p{margin:5px 0;white-space:pre-wrap;overflow-wrap:anywhere}.pdf-document .pdf-stage{margin:12px 0;page-break-inside:avoid}.pdf-document .pdf-muted{color:#53617f}
+    @media(max-width:850px){.hero-grid{grid-template-columns:1fr;gap:28px}.preview{transform:none}.grid-3{grid-template-columns:1fr 1fr}.nav{gap:14px}}@media(max-width:640px){.shell{width:min(100% - 24px,1120px)}.header-inner{min-height:62px}.nav{display:none;position:absolute;top:61px;left:0;right:0;padding:16px 20px;background:var(--surface);border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start}.nav.open{display:flex}.menu-toggle{display:block}.header-actions{display:flex;gap:8px}.hero{padding:48px 0 30px}.grid-3,.faq{grid-template-columns:1fr}.section{padding:32px 0}.planner-outer{padding:10px;border-radius:18px}#app-root .card{padding:16px}#app-root .btn{flex:1}.stats{gap:18px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="shell">
-      <a href="#top" class="brand" aria-label="На главную">
-        <span class="brand-badge">P</span>
-        <span>Project Planner</span>
-      </a>
-
-      <nav class="nav" aria-label="Главная навигация">
-        <a href="#benefits">Преимущества</a>
-        <a href="#process">Как работает</a>
-        <a href="#planner">Планировщик</a>
-      </nav>
-
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Сменить тему">Тема: свет</button>
-    </div>
-  </header>
-
-  <main id="top">
-    <section class="hero">
-      <div class="shell hero-grid">
-        <div>
-          <div class="eyebrow">Шаг к готовому проекту</div>
-          <h1>Планируй учебный проект без хаоса.</h1>
-          <p class="lead">Ответь на ключевые вопросы, разложи проект по этапам и в конце получи структурированный документ, который можно скачать, распечатать или скопировать.</p>
-
-          <div class="cta-row">
-            <a href="#planner" class="btn primary">Начать планирование</a>
-            <button class="btn" type="button" id="jump-preview">Посмотреть пример</button>
-          </div>
-
-          <div class="mini-stats" aria-label="Основные характеристики инструмента">
-            <div>
-              <strong>7</strong>
-              вопросов
-            </div>
-            <div>
-              <strong>5</strong>
-              этапов
-            </div>
-            <div>
-              <strong>1</strong>
-              готовый документ
-            </div>
-          </div>
-        </div>
-
-        <aside class="panel preview-card" aria-label="Превью инструмента">
-          <div class="preview-head">
-            <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <span class="tag">Готово</span>
-          </div>
-
-          <div class="list">
-            <div class="check-item">
-              <div class="check">✓</div>
-              <div>
-                <strong>Определяешь идею</strong>
-                <span>Почему проект нужен и кому он важен</span>
-              </div>
-            </div>
-
-            <div class="check-item">
-              <div class="check">✓</div>
-              <div>
-                <strong>Формулируешь задачи</strong>
-                <span>Что будет готово в результате</span>
-              </div>
-            </div>
-
-            <div class="check-item">
-              <div class="check">✓</div>
-              <div>
-                <strong>Собираешь план</strong>
-                <span>Этапы, сроки и риски по шагам</span>
-              </div>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="benefits" class="feature-section">
-      <div class="shell">
-        <h2 class="section-title">Почему это удобно</h2>
-
-        <div class="feature-grid">
-          <article class="feature-card">
-            <div class="feature-icon" aria-hidden="true">🧠</div>
-            <h3>Структура вместо хаоса</h3>
-            <p>Простой маршрут по шагам помогает не упустить важные вопросы о целях, аудитории и результатах.</p>
-          </article>
-
-          <article class="feature-card">
-            <div class="feature-icon" aria-hidden="true">⚡</div>
-            <h3>Быстро ввести данные</h3>
-            <p>Достаточно ответить на вопросы и сформировать этапы — всё осталось в одном интерфейсе.</p>
-          </article>
-
-          <article class="feature-card">
-            <div class="feature-icon" aria-hidden="true">📄</div>
-            <h3>Готовый документ</h3>
-            <p>В конце можно скачать текстовый файл, распечатать страницу или просто скопировать готовый план.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="process" class="feature-section">
-      <div class="shell">
-        <h2 class="section-title">Как это работает</h2>
-
-        <div class="feature-grid">
-          <article class="feature-card">
-            <div class="feature-icon" aria-hidden="true">1</div>
-            <h3>Идея проекта</h3>
-            <p>Определяешь смысл проекта и то, зачем он нужен.</p>
-          </article>
-
-          <article class="feature-card">
-            <div class="feature-icon" aria-hidden="true">2</div>
-            <h3>Вопросы о проекте</h3>
-            <p>Отвечаешь на пункты про аудиторию, целевой результат и риски.</p>
-          </article>
-
-          <article class="feature-card">
-            <div class="feature-icon" aria-hidden="true">3</div>
-            <h3>Этапы и итог</h3>
-            <p>Разбиваешь проект на этапы и получаешь готовый план в текстовом формате.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="planner" class="app-section">
-      <div class="shell">
-        <h2 class="section-title">Планировщик проекта</h2>
-
-        <div class="app-shell planner">
-          <div class="planner-wrap">
-            <div class="planner-page">
-              <div id="app-root"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <header class="header"><div class="shell header-inner">
+    <a class="brand" href="#home" aria-label="План проекта — на главную"><span class="brand-mark">П</span><span>План проекта</span></a>
+    <nav class="nav" id="site-nav" aria-label="Основная навигация"><a href="#benefits">Возможности</a><a href="#how">Как это работает</a><a href="#faq">Вопросы</a><a href="#planner">Планировщик</a></nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Сменить тему">☼</button><button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Меню</button></div>
+  </div></header>
+  <main id="home">
+    <section class="hero"><div class="shell hero-grid"><div>
+      <span class="eyebrow">✦ Учебный проект по шагам</span>
+      <h1>Хорошая идея заслуживает ясного плана.</h1>
+      <p class="lead">Продумай цель, ответь на важные вопросы и преврати большую задачу в понятные этапы. Готовый план можно скачать в PDF и показать учителю или команде.</p>
+      <div class="button-row"><a class="btn primary" href="#planner">Составить план <span aria-hidden="true">→</span></a><a class="btn" href="#how">Узнать, как работает</a></div>
+      <div class="stats"><div><strong>4 шага</strong>от идеи до плана</div><div><strong>PDF-файл</strong>для скачивания</div><div><strong>Автосохранение</strong>в этом браузере</div></div>
+    </div><aside class="preview" aria-label="Пример готового плана"><div class="preview-top"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="badge">План готов</span></div>
+      <div class="preview-row"><span class="tick">✓</span><div><strong>Понятная цель</strong><small>Знаешь, зачем и для кого проект</small></div></div>
+      <div class="preview-row"><span class="tick">✓</span><div><strong>Продуманные шаги</strong><small>Этапы, задачи и сроки собраны вместе</small></div></div>
+      <div class="preview-row"><span class="tick">✓</span><div><strong>Документ на руках</strong><small>Скачай PDF или текстовый файл</small></div></div>
+    </aside></div></section>
+    <section class="section" id="benefits"><div class="shell"><h2 class="section-title">Всё важное — в одном месте</h2><p class="section-intro">Не нужно начинать с чистого листа. Планировщик поможет обдумать проект и ничего не забыть.</p>
+      <div class="grid-3"><article class="tile"><div class="tile-icon" aria-hidden="true">🧭</div><h3>Есть понятный маршрут</h3><p>Пошаговая форма ведёт от идеи через вопросы к реальным задачам и срокам.</p></article><article class="tile"><div class="tile-icon" aria-hidden="true">💾</div><h3>Прогресс сохраняется</h3><p>Ответы автоматически сохраняются в браузере — можно вернуться к работе позже.</p></article><article class="tile"><div class="tile-icon" aria-hidden="true">📄</div><h3>Удобно поделиться</h3><p>Сформируй аккуратный PDF, скачай текстовый вариант или скопируй план.</p></article></div>
+    </div></section>
+    <section class="section" id="how"><div class="shell"><h2 class="section-title">От замысла до результата</h2><p class="section-intro">Заполняй в своём темпе: черновик остаётся в этом браузере, а поля можно менять до финального шага.</p>
+      <div class="grid-3"><article class="tile"><div class="tile-icon how-number">01</div><h3>Опиши идею</h3><p>Дай проекту название и расскажи, что хочешь сделать и зачем.</p></article><article class="tile"><div class="tile-icon how-number">02</div><h3>Ответь на вопросы</h3><p>Подумай о пользователях, результате, ресурсах и возможных трудностях.</p></article><article class="tile"><div class="tile-icon how-number">03</div><h3>Собери этапы</h3><p>Разбей работу на выполнимые шаги, добавь сроки и скачай готовый документ.</p></article></div>
+    </div></section>
+    <section class="section" id="planner"><div class="shell"><h2 class="section-title">Твой планировщик</h2><p class="section-intro">Ответы сохраняются автоматически на этом устройстве. PDF создаётся прямо в браузере.</p><div class="planner-outer"><div id="app-root"></div></div></div></section>
+    <section class="section" id="faq"><div class="shell"><h2 class="section-title">Частые вопросы</h2><div class="faq">
+      <details><summary>Где хранятся мои ответы?</summary><p>В локальном хранилище браузера на этом устройстве. Они не отправляются на сервер сайта. Очистка данных браузера может удалить сохранённый черновик.</p></details>
+      <details><summary>Как скачать PDF?</summary><p>Заполни обязательные поля и перейди к готовому плану. Нажми «Скачать PDF» — файл сформируется и загрузится в браузере.</p></details>
+      <details><summary>Можно ли изменить этапы?</summary><p>Да. На шаге «Этапы» можно менять названия, добавлять новые строки или удалять лишние.</p></details>
+      <details><summary>Нужен ли аккаунт?</summary><p>Нет, планировщик работает без регистрации. Для создания PDF требуется подключение к интернету для загрузки библиотеки генерации.</p></details>
+    </div></div></section>
   </main>
-
-  <footer class="site-footer">
-    <div class="shell">
-      © 2026 Project Planner — простой способ собрать план учебного проекта.
-    </div>
-  </footer>
+  <footer class="footer"><div class="shell footer-inner"><span>© 2026 План проекта. Сделано для учебных идей.</span><a href="#home">Наверх ↑</a></div></footer>
 
   <script>
-    (function () {
-      const themeToggle = document.getElementById('theme-toggle');
-      const root = document.documentElement;
-      const savedTheme = localStorage.getItem('site-theme');
-
-      function applyTheme(theme) {
-        root.setAttribute('data-theme', theme);
-        const isDark = theme === 'dark';
-        themeToggle.textContent = isDark ? 'Тема: тёмная' : 'Тема: свет';
-      }
-
-      if (savedTheme) {
-        applyTheme(savedTheme);
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        applyTheme('dark');
-      } else {
-        applyTheme('light');
-      }
-
-      themeToggle.addEventListener('click', function () {
-        const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('site-theme', nextTheme);
-        applyTheme(nextTheme);
-      });
-
-      document.getElementById('jump-preview').addEventListener('click', function () {
-        document.getElementById('planner').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+    (function(){
+      var page=document.documentElement, themeButton=document.getElementById('theme-toggle');
+      var storedTheme=null;try{storedTheme=localStorage.getItem('site-theme')}catch(e){}
+      function setTheme(theme){page.setAttribute('data-theme',theme);themeButton.textContent=theme==='dark'?'☾':'☼';themeButton.setAttribute('aria-label',theme==='dark'?'Включить светлую тему':'Включить тёмную тему')}
+      setTheme(storedTheme||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+      themeButton.addEventListener('click',function(){var next=page.getAttribute('data-theme')==='dark'?'light':'dark';try{localStorage.setItem('site-theme',next)}catch(e){}setTheme(next)});
+      var menu=document.getElementById('menu-toggle'),nav=document.getElementById('site-nav');
+      menu.addEventListener('click',function(){var open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open))});
+      nav.addEventListener('click',function(e){if(e.target.closest('a')){nav.classList.remove('open');menu.setAttribute('aria-expanded','false')}});
     })();
 
     (function(){
-      var root = document.getElementById('app-root');
-      if (!root) return;
-
-      var $ = function(s){ return document.querySelector(s); };
-      var STEPS = ['Идея', 'Вопросы', 'Этапы', 'План'];
-      var KEY = 'plan_v1';
-      var Q = [
-        'Зачем этот проект? Какую проблему он решает или что хочет показать?',
-        'Для кого он? Кто будет им пользоваться или кому он будет интересен?',
-        'Что будет готовым результатом, который можно показать?',
-        'Что тебе нужно изучить или чем пользоваться, чтобы это сделать?',
-        'Как ты поймёшь, что получилось хорошо?',
-        'Что может пойти не так и что ты будешь делать в этом случае?',
-        'Сколько у тебя времени и сколько часов в неделю ты готов на это тратить?'
-      ];
-      var ST = ['Изучение темы', 'Подготовка', 'Первая версия', 'Проверка и доработка', 'Оформление и защита'];
-
-      function fresh(){
-        return { step:0, title:'', subject:'', idea:'', a:Q.map(function(){ return ''; }), st:ST.map(function(t){ return { t:t, d:'' }; }) };
-      }
-
-      var S = fresh();
-      try {
-        var raw = localStorage.getItem(KEY);
-        if (raw) {
-          var o = JSON.parse(raw);
-          if (o && o.a && o.st) S = o;
-        }
-      } catch (e) {}
-
-      function save(){
-        try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
-      }
-
-      function esc(s){
-        return String(s).replace(/[&<>\"]/g, function(c){
-          return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
-        });
-      }
-
-      function len(t){ return (t || '').trim().length; }
-
-      function missing(){
-        var n = 0;
-        if (S.step === 0){
-          if (len(S.title) < 3) n++;
-          if (len(S.idea) < 30) n++;
-        } else if (S.step === 1) {
-          S.a.forEach(function(x){ if (len(x) < 15) n++; });
-        } else if (S.step === 2) {
-          S.st.forEach(function(x){ if (len(x.t) < 2) n++; if (len(x.d) < 20) n++; });
-        }
-        return n;
-      }
-
-      function gate(){
-        var n = missing();
-        var b = document.querySelector('[data-act="next"]');
-        if (b) b.disabled = n > 0;
-        var g = $('#gm');
-        if (g) g.textContent = n ? 'Осталось заполнить полей: ' + n + '. Пиши развёрнуто и своими словами.' : '';
-      }
-
-      function ta(k, v, rows){
-        return '<textarea data-k="' + k + '" rows="' + rows + '">' + esc(v || '') + '</textarea>';
-      }
-
-      function nav(nextText){
-        return '<div class="actions">' + (S.step > 0 ? '<button class="btn" data-act="back">Назад</button>' : '') +
-          '<button class="btn primary" data-act="next">' + nextText + '</button></div><p class="meta" id="gm"></p>';
-      }
-
-      function view0(){
-        return '<div class="card"><div class="f"><label class="lbl" for="ti">Название проекта</label><input id="ti" data-k="title" value="' + esc(S.title) + '"></div>' +
-          '<div class="f"><label class="lbl" for="su">Предмет или направление (по желанию)</label><input id="su" data-k="subject" value="' + esc(S.subject) + '"></div>' +
-          '<div class="f"><label class="lbl" for="id">Опиши идею своими словами</label><p class="hint">2-4 предложения: что хочешь сделать и зачем. Минимум 30 символов.</p>' +
-          ta('idea', S.idea, 5).replace('<textarea ', '<textarea id="id" ') + '</div></div>' + nav('Дальше: вопросы');
-      }
-
-      function view1(){
-        var h = '<div class="card"><p class="hint">Отвечай своими словами, минимум 15 символов на вопрос. Правильных ответов здесь нет, важно, что думаешь ты.</p>';
-        Q.forEach(function(q,i){ h += '<div class="f"><span class="lbl">' + esc(q) + '</span>' + ta('a' + i, S.a[i], 3) + '</div>'; });
-        return h + '</div>' + nav('Дальше: этапы');
-      }
-
-      function view2(){
-        var h = '<div class="card"><p class="hint">Разбей проект на этапы. Названия можно менять, этапы можно добавлять и убирать. Для каждого напиши, что и к какому сроку сделаешь.</p>';
-        S.st.forEach(function(x,i){
-          h += '<div class="f"><div class="row"><input data-k="t' + i + '" value="' + esc(x.t) + '" aria-label="Название этапа">' +
-            (S.st.length > 2 ? '<button class="btn small" data-act="rm" data-i="' + i + '">Убрать</button>' : '') + '</div>' + ta('d' + i, x.d, 3) + '</div>';
-        });
-        return h + '<div class="f"><button class="btn small" data-act="add">Добавить этап</button></div></div>' + nav('Собрать план');
-      }
-
-      function buildDoc(){
-        var L = ['ПЛАН ПРОЕКТА', 'Название: ' + S.title];
-        if (S.subject) L.push('Предмет: ' + S.subject);
-        L.push('Дата: ' + new Date().toLocaleDateString('ru-RU'), '', 'ИДЕЯ', S.idea, '', 'ВОПРОСЫ О ПРОЕКТЕ');
-        Q.forEach(function(q,i){ L.push('', q, S.a[i]); });
-        L.push('', 'ЭТАПЫ');
-        S.st.forEach(function(x,i){ L.push('', (i + 1) + '. ' + x.t, x.d); });
-        return L.join('\n');
-      }
-
-      function view3(){
-        return '<div class="card"><h2>Твой план готов</h2><p class="hint">Скачай файл или распечатай страницу, чтобы сохранить её как PDF.</p><p class="pre">' + esc(buildDoc()) + '</p></div>' +
-          '<div class="actions"><button class="btn" data-act="back">Назад</button><button class="btn primary" data-act="dl">Скачать файл</button>' +
-          '<button class="btn" data-act="print">Печать / PDF</button><button class="btn" data-act="copy">Копировать</button><button class="btn" data-act="reset">Начать заново</button></div><p class="meta" id="gm"></p>';
-      }
-
-      function render(){
-        root.innerHTML = '<style>' +
-          ':root{--bg:#eef3fb;--surface:#ffffff;--ink:#1c2557;--muted:#56608c;--line:#c5d0ea;--accent:#ffb020;--accent-ink:#1c2557;--focus:#3b5bdb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);} ' +
-          '@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111633;--surface:#1b2250;--ink:#e9edff;--muted:#a4aed8;--line:#2f3a78;--focus:#8ea2ff}} ' +
-          ':root[data-theme="dark"]{--bg:#111633;--surface:#1b2250;--ink:#e9edff;--muted:#a4aed8;--line:#2f3a78;--focus:#8ea2ff} ' +
-          '*{box-sizing:border-box} ' +
-          'body{margin:0;background:var(--bg);color:var(--ink);font-family:Onest,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:17px;line-height:1.5} ' +
-          'main{max-width:900px;margin:0 auto;padding:8px 0 18px} ' +
-          'h1{font-family:Unbounded,Onest,system-ui,sans-serif;font-weight:600;font-size:clamp(1.6rem,6.5vw,2.3rem);line-height:1.15;margin:0 0 10px} ' +
-          'h2{font-size:1.05rem;margin:0 0 8px} ' +
-          '.lead{color:var(--muted);margin:0 0 24px;max-width:52ch} ' +
-          '.steps{display:flex;gap:6px;list-style:none;margin:0 0 24px;padding:0;border-bottom:2px solid var(--line);overflow-x:auto} ' +
-          '.steps li{color:var(--muted);padding:8px 12px;margin-bottom:-2px;border-bottom:3px solid transparent;white-space:nowrap;font-weight:600} ' +
-          '.steps li.done{color:var(--ink)} ' +
-          '.steps li[aria-current]{color:var(--ink);border-bottom-color:var(--accent)} ' +
-          '.card{background:var(--surface);border:2px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--accent);padding:20px 22px;margin-bottom:22px} ' +
-          '.lbl{display:block;font-weight:600;margin:0 0 4px} ' +
-          '.f{margin-top:18px}.f:first-child{margin-top:0} ' +
-          '.hint{color:var(--muted);font-size:.93rem;margin:0 0 8px} ' +
-          'input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px} ' +
-          'textarea{resize:vertical;min-height:84px} ' +
-          'input:focus,textarea:focus{border-color:var(--focus);outline:none} ' +
-          '.row{display:flex;gap:10px;align-items:center;margin-bottom:8px} ' +
-          '.row input{font-weight:600} ' +
-          '.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px} ' +
-          '.btn{font:inherit;font-weight:600;border-radius:10px;padding:12px 20px;cursor:pointer;border:2px solid var(--ink);color:var(--ink);background:transparent} ' +
-          '.btn.primary{background:var(--accent);color:var(--accent-ink)} ' +
-          '.btn.small{padding:8px 12px;font-size:.9rem;white-space:nowrap} ' +
-          '.btn:disabled{opacity:.45;cursor:not-allowed} ' +
-          ':is(.btn,input,textarea):focus-visible{outline:3px solid var(--focus);outline-offset:2px} ' +
-          '.meta{min-height:1.5em;color:var(--muted);font-size:.95rem;margin:12px 2px 0} ' +
-          '.pre{white-space:pre-wrap;margin:0;overflow-wrap:anywhere} ' +
-          '@media print{body{background:#fff;color:#000} h1,.lead,.steps,.actions,.meta,.hint{display:none} .card{border:0;box-shadow:none;padding:0;background:#fff;color:#000}} ' +
-          '@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}' +
-        '</style>' +
-        '<main>' +
-          '<ol class="steps" id="steps">' + STEPS.map(function(n,i){
-            return '<li' + (i === S.step ? ' aria-current="step"' : '') + (i < S.step ? ' class="done"' : '') + '>' + (i + 1) + '. ' + n + '</li>';
-          }).join('') + '</ol>' +
-          '<section id="view">' + [view0, view1, view2, view3][S.step]() + '</section>' +
-        '</main>';
-
-        gate();
-      }
-
-      function msg(m){ var g = $('#gm'); if (g) g.textContent = m; }
-
-      function dl(){
-        var text = buildDoc();
-        var blob = new Blob(['\uFEFF' + text], { type: 'text/plain;charset=utf-8' });
-        var a = document.createElement('a');
-        var url = URL.createObjectURL(blob);
-        a.href = url; a.download = 'plan-proekta.txt';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
-        msg('Файл plan-proekta.txt скачан');
-      }
-
-      function copy(){
-        var text = buildDoc();
-        var fallback = function(){
-          var t = document.createElement('textarea');
-          t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
-          document.body.appendChild(t); t.select();
-          try { document.execCommand('copy'); msg('Скопировано'); } catch (e) { msg('Не удалось скопировать, выдели текст вручную'); }
-          document.body.removeChild(t);
-        };
-        try { navigator.clipboard.writeText(text).then(function(){ msg('Скопировано'); }, fallback); } catch (e) { fallback(); }
-      }
-
-      function go(n){ S.step = n; save(); window.scrollTo({ top: 0, behavior: 'smooth' }); render(); }
-
-      function setV(k, v){
-        var i = +k.slice(1);
-        if (/^a\d+$/.test(k)) S.a[i] = v;
-        else if (/^t\d+$/.test(k)) S.st[i].t = v;
-        else if (/^d\d+$/.test(k)) S.st[i].d = v;
-        else S[k] = v;
-      }
-
-      root.addEventListener('input', function(e){
-        var k = e.target.getAttribute('data-k'); if (!k) return;
-        setV(k, e.target.value); save(); gate();
-      });
-
-      root.addEventListener('click', function(e){
-        var b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
-        var a = b.getAttribute('data-act');
-        if (a === 'next') go(S.step + 1);
-        else if (a === 'back') go(S.step - 1);
-        else if (a === 'add'){ S.st.push({t:'',d:''}); save(); render(); }
-        else if (a === 'rm'){ S.st.splice(+b.getAttribute('data-i'), 1); save(); render(); }
-        else if (a === 'dl') dl();
-        else if (a === 'print') window.print();
-        else if (a === 'copy') copy();
-        else if (a === 'reset'){ S = fresh(); try { localStorage.removeItem(KEY); } catch (x) {} window.scrollTo(0, 0); render(); }
-      });
-
+      var app=document.getElementById('app-root'),STEPS=['Идея','Вопросы','Этапы','План'],KEY='plan_v1';
+      var Q=['Зачем этот проект? Какую проблему он решает или что хочет показать?','Для кого он? Кто будет им пользоваться или кому он будет интересен?','Что будет готовым результатом, который можно показать?','Что тебе нужно изучить или чем пользоваться, чтобы это сделать?','Как ты поймёшь, что получилось хорошо?','Что может пойти не так и что ты будешь делать в этом случае?','Сколько у тебя времени и сколько часов в неделю ты готов на это тратить?'];
+      var DEFAULT_ST=['Изучение темы','Подготовка','Первая версия','Проверка и доработка','Оформление и защита'];
+      function fresh(){return{step:0,title:'',subject:'',idea:'',a:Q.map(function(){return''}),st:DEFAULT_ST.map(function(t){return{t:t,d:''}})}}
+      var S=fresh();try{var raw=localStorage.getItem(KEY);if(raw){var parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.a)&&Array.isArray(parsed.st))S=parsed}}catch(e){}
+      function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+      function esc(v){return String(v==null?'':v).replace(/[&<>\"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+      function missing(){var n=0;if(S.step===0){if((S.title||'').trim().length<3)n++;if((S.idea||'').trim().length<30)n++}else if(S.step===1){Q.forEach(function(_,i){if(((S.a[i])||'').trim().length<15)n++})}else if(S.step===2){S.st.forEach(function(x){if((x.t||'').trim().length<2)n++;if((x.d||'').trim().length<20)n++})}return n}
+      function textArea(k,v,rows){return'<textarea data-k="'+k+'" rows="'+rows+'">'+esc(v)+'</textarea>'}
+      function nav(next){return'<div class="actions">'+(S.step>0?'<button class="btn" data-act="back">Назад</button>':'')+'<button class="btn primary" data-act="next">'+next+'</button></div><p class="meta" id="planner-message" aria-live="polite"></p>'}
+      function view0(){return'<div class="card"><div class="f"><label class="lbl" for="project-title">Название проекта</label><input id="project-title" data-k="title" value="'+esc(S.title)+'" autocomplete="off"></div><div class="f"><label class="lbl" for="project-subject">Предмет или направление <span class="hint">(по желанию)</span></label><input id="project-subject" data-k="subject" value="'+esc(S.subject)+'"></div><div class="f"><label class="lbl" for="project-idea">Опиши идею своими словами</label><p class="hint">2–4 предложения: что хочешь сделать и зачем. Минимум 30 символов.</p>'+textArea('idea',S.idea,5).replace('<textarea ','<textarea id="project-idea" ')+'</div></div>'+nav('Дальше: вопросы')}
+      function view1(){var h='<div class="card"><p class="hint">Отвечай своими словами — минимум 15 символов на вопрос. Правильных ответов нет, важно твоё мнение.</p>';Q.forEach(function(q,i){h+='<div class="f"><label class="lbl" for="answer-'+i+'">'+esc(q)+'</label>'+textArea('a'+i,S.a[i],3).replace('<textarea ','<textarea id="answer-'+i+'" ')+'</div>'});return h+'</div>'+nav('Дальше: этапы')}
+      function view2(){var h='<div class="card"><p class="hint">Для каждого этапа напиши, что и к какому сроку сделаешь. Этапы можно менять, добавлять и удалять.</p>';S.st.forEach(function(x,i){h+='<div class="f"><div class="row"><input data-k="t'+i+'" value="'+esc(x.t)+'" aria-label="Название этапа '+(i+1)+'">'+(S.st.length>2?'<button class="btn small" data-act="rm" data-i="'+i+'" aria-label="Удалить этап '+(i+1)+'">Убрать</button>':'')+'</div>'+textArea('d'+i,x.d,3)+'</div>'});return h+'<div class="f"><button class="btn small" data-act="add">＋ Добавить этап</button></div></div>'+nav('Собрать план')}
+      function docText(){var lines=['ПЛАН УЧЕБНОГО ПРОЕКТА','Название: '+S.title];if(S.subject)lines.push('Предмет: '+S.subject);lines.push('Дата: '+new Date().toLocaleDateString('ru-RU'),'','ИДЕЯ',S.idea,'','ВОПРОСЫ О ПРОЕКТЕ');Q.forEach(function(q,i){lines.push('',q,S.a[i]||'')});lines.push('','ЭТАПЫ');S.st.forEach(function(x,i){lines.push('',(i+1)+'. '+x.t,x.d)});return lines.join('\n')}
+      function view3(){return'<div class="card"><h2>Твой план готов</h2><p class="hint">Скачай PDF-документ или выбери другой формат.</p><p class="pre">'+esc(docText())+'</p></div><div class="actions"><button class="btn" data-act="back">Назад</button><button class="btn primary" data-act="pdf">⬇ Скачать PDF</button><button class="btn" data-act="txt">Скачать TXT</button><button class="btn" data-act="copy">Копировать</button><button class="btn" data-act="reset">Начать заново</button></div><p class="meta" id="planner-message" aria-live="polite"></p>'}
+      function gate(){var n=missing(),b=app.querySelector('[data-act="next"]');if(b)b.disabled=n>0;var m=app.querySelector('#planner-message');if(m)m.textContent=n?'Осталось заполнить полей: '+n+'. Заполни их своими словами.':''}
+      function render(){app.innerHTML='<ol class="steps" aria-label="Шаги планирования">'+STEPS.map(function(name,i){return'<li'+(i===S.step?' aria-current="step"':'')+(i<S.step?' class="done"':'')+'>'+(i+1)+'. '+name+'</li>'}).join('')+'</ol><section>'+[view0,view1,view2,view3][S.step]()+'</section>';gate()}
+      function message(text){var m=app.querySelector('#planner-message');if(m)m.textContent=text}
+      function pdfSafeName(name){return(name||'plan-proekta').toLowerCase().replace(/[^a-z0-9а-яё]+/gi,'-').replace(/^-|-$/g,'')||'plan-proekta'}
+      function downloadPdf(button){if(!window.html2pdf){message('Не удалось загрузить PDF-модуль. Проверь интернет и попробуй ещё раз.');return}button.disabled=true;message('Готовим PDF…');var node=document.createElement('article');node.className='pdf-document';node.innerHTML='<h1>План учебного проекта</h1><p class="pdf-muted">'+esc(S.title)+(S.subject?' · '+esc(S.subject):'')+'</p><p class="pdf-muted">Дата: '+esc(new Date().toLocaleDateString('ru-RU'))+'</p><h2>Идея проекта</h2><p>'+esc(S.idea)+'</p><h2>Вопросы о проекте</h2>'+Q.map(function(q,i){return'<div class="pdf-stage"><p><strong>'+esc(q)+'</strong></p><p>'+esc(S.a[i])+'</p></div>'}).join('')+'<h2>Этапы работы</h2>'+S.st.map(function(x,i){return'<div class="pdf-stage"><p><strong>'+ (i+1)+'. '+esc(x.t)+'</strong></p><p>'+esc(x.d)+'</p></div>'}).join('');document.body.appendChild(node);var options={margin:[12,12,14,12],filename:pdfSafeName(S.title)+'.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}};window.html2pdf().set(options).from(node).save().then(function(){message('PDF скачан.');}).catch(function(){message('Не получилось создать PDF. Попробуй ещё раз или скачай TXT.');}).finally(function(){node.remove();button.disabled=false})}
+      function downloadTxt(){var blob=new Blob(['\uFEFF'+docText()],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=pdfSafeName(S.title)+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);message('Текстовый файл скачан.')}
+      function copyText(){var txt=docText();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){message('План скопирован.')},function(){message('Не удалось скопировать. Попробуй скачать TXT.')})}else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');message('План скопирован.')}catch(e){message('Не удалось скопировать. Попробуй скачать TXT.')}ta.remove()}}
+      function setValue(k,v){var i=Number(k.slice(1));if(/^a\d+$/.test(k))S.a[i]=v;else if(/^t\d+$/.test(k))S.st[i].t=v;else if(/^d\d+$/.test(k))S.st[i].d=v;else S[k]=v}
+      app.addEventListener('input',function(e){var k=e.target.getAttribute('data-k');if(!k)return;setValue(k,e.target.value);save();gate()});
+      app.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b||b.disabled)return;var action=b.getAttribute('data-act');if(action==='next'){S.step=Math.min(S.step+1,3);save();render();app.scrollIntoView({behavior:'smooth',block:'start'})}else if(action==='back'){S.step=Math.max(S.step-1,0);save();render();app.scrollIntoView({behavior:'smooth',block:'start'})}else if(action==='add'){S.st.push({t:'',d:''});save();render()}else if(action==='rm'){S.st.splice(Number(b.getAttribute('data-i')),1);save();render()}else if(action==='pdf')downloadPdf(b);else if(action==='txt')downloadTxt();else if(action==='copy')copyText();else if(action==='reset'){if(window.confirm('Удалить заполненный план и начать заново?')){S=fresh();try{localStorage.removeItem(KEY)}catch(x){}render()}}});
       render();
     })();
   </script>
