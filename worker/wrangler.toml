@@ -1,0 +1,8 @@
+name = "project-planner-ai"
+main = "src/index.js"
+compatibility_date = "2026-11-12"
+
+[vars]
+# Set this to the exact origin serving the GitHub Pages site.
+ALLOWED_ORIGIN = "https://vovagorosov-del.github.io"
+GEMINI_MODEL = "gemini-2.5-flash"
