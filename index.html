@@ -4,79 +4,585 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#eef3fb">
-  <meta name="description" content="Составь план учебного проекта по шагам и получи помощь ИИ-наставника прямо на странице.">
+  <meta name="description" content="Планировщик учебного проекта с ИИ-помощником">
   <title>План учебного проекта</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
   <style>
-    :root{color-scheme:light;--bg:#eef3fb;--bg2:#dfe9ff;--surface:#fff;--ink:#1d254f;--muted:#586489;--line:#c7d6f5;--accent:#ffb020;--accent-ink:#1d254f;--focus:#3b5bdb;--shadow:rgba(37,53,101,.12)}
-    :root[data-theme=dark]{color-scheme:dark;--bg:#101831;--bg2:#1b244d;--surface:#1b2250;--ink:#edf3ff;--muted:#a8b5df;--line:#35427e;--accent:#ffbf49;--accent-ink:#1d254f;--focus:#aab8ff;--shadow:rgba(1,4,15,.4)}
-    @media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#101831;--bg2:#1b244d;--surface:#1b2250;--ink:#edf3ff;--muted:#a8b5df;--line:#35427e;--accent:#ffbf49;--accent-ink:#1d254f;--focus:#aab8ff;--shadow:rgba(1,4,15,.4)}}
-    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:radial-gradient(circle at 8% 2%,rgba(255,176,32,.18),transparent 25%),linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);font:16px/1.55 Onest,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.shell{width:min(1120px,calc(100% - 28px));margin:auto}
-    .header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.header-inner{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--accent)}.nav{display:flex;gap:22px;color:var(--muted);font-size:.94rem;font-weight:600}.nav a:hover{color:var(--ink)}.theme{border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);padding:8px 13px;font-weight:700;cursor:pointer}
-    .hero{padding:72px 0 42px}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}.eyebrow{display:inline-block;padding:7px 12px;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:999px;background:color-mix(in srgb,var(--accent) 15%,transparent);font-size:.8rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.hero h1,.section-title{font-family:Unbounded,Onest,sans-serif;letter-spacing:-.04em}.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.06;margin:18px 0}.lead,.intro{color:var(--muted);max-width:62ch}.lead{font-size:1.08rem;margin:0 0 22px}.button-row{display:flex;flex-wrap:wrap;gap:11px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2px solid var(--ink);border-radius:11px;padding:11px 17px;background:transparent;color:var(--ink);font-weight:700;cursor:pointer;transition:transform .18s,box-shadow .18s}.btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px var(--shadow)}.btn.primary{background:var(--accent);color:var(--accent-ink)}.btn:disabled{opacity:.5;cursor:not-allowed}.preview,.tile,.planner-card{border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:0 16px 38px var(--shadow)}.preview{padding:20px}.preview h2{margin:0 0 14px;font-size:1.1rem}.preview-item{padding:12px 0;border-top:1px solid var(--line)}.preview-item strong{display:block}.preview-item span{color:var(--muted);font-size:.92rem}.section{padding:38px 0}.section-title{font-size:clamp(1.7rem,4vw,2.55rem);line-height:1.17;margin:0 0 12px}.intro{margin:0 0 22px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tile{padding:21px}.tile-icon{font-size:1.45rem}.tile h3{margin:8px 0}.tile p{margin:0;color:var(--muted)}
-    .planner-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:18px;align-items:start}.planner-card{padding:20px;box-shadow:0 16px 38px var(--shadow)}.planner-card h3{margin:0 0 8px}.steps{display:flex;gap:4px;overflow:auto;list-style:none;padding:0;margin:0 0 20px;border-bottom:2px solid var(--line)}.steps li{white-space:nowrap;padding:8px 10px;margin-bottom:-2px;border-bottom:3px solid transparent;color:var(--muted);font-weight:700;font-size:.92rem}.steps li[aria-current]{color:var(--ink);border-color:var(--accent)}.steps li.done{color:var(--ink)}.field{margin:16px 0}.field label{display:block;font-weight:700;margin-bottom:5px}.hint{color:var(--muted);font-size:.9rem;margin:0 0 8px}.planner-card input,.planner-card textarea,.chat-input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);color:var(--ink)}.planner-card textarea{min-height:78px;resize:vertical}.stage-row{display:flex;gap:8px;align-items:center}.stage-row input{flex:1}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.actions .btn{padding:9px 13px}.status{min-height:1.5em;margin:10px 2px 0;color:var(--muted);font-size:.9rem}.plan-preview{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.ai-card{padding:0;overflow:hidden}.ai-heading{padding:18px 18px 12px;border-bottom:1px solid var(--line)}.ai-heading h3{margin:0 0 5px}.ai-heading p{margin:0;color:var(--muted);font-size:.9rem}.chat-messages{height:360px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:16px}.bubble{max-width:90%;padding:10px 13px;border-radius:14px;background:var(--bg);white-space:pre-wrap;overflow-wrap:anywhere}.bubble.user{align-self:flex-end;background:var(--accent);color:#1d254f}.bubble.assistant{align-self:flex-start;border:1px solid var(--line)}.bubble.error{border:1px solid #d77;color:#a33}.chat-form{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px;border-top:1px solid var(--line)}.chat-input{min-height:48px;max-height:130px;resize:vertical}.chat-actions{display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 12px}.privacy{padding:0 16px 14px;margin:0;color:var(--muted);font-size:.8rem}.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}.faq details{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.faq summary{font-weight:700;cursor:pointer}.faq p{color:var(--muted);margin:8px 0 0}.footer{padding:28px 0 38px;color:var(--muted);border-top:1px solid var(--line);font-size:.9rem}.footer-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.pdf-document{position:fixed;left:-10000px;top:0;width:760px;padding:48px;background:white;color:#17213f;font:15px/1.6 Arial,sans-serif}.pdf-document h1{font-size:26px;margin:0 0 8px}.pdf-document h2{font-size:17px;margin:24px 0 6px;padding-bottom:5px;border-bottom:1px solid #c7d6f5}.pdf-document p{margin:5px 0;white-space:pre-wrap;overflow-wrap:anywhere}.pdf-stage{margin:12px 0;page-break-inside:avoid}
-    @media(max-width:850px){.hero-grid{grid-template-columns:1fr}.planner-layout{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr 1fr}}@media(max-width:600px){.header-inner{min-height:60px}.nav{gap:12px;font-size:.82rem}.hero{padding:48px 0 28px}.grid-3,.faq{grid-template-columns:1fr}.planner-card{padding:14px}.chat-messages{height:300px}.actions .btn{flex:1}.stage-row{align-items:stretch}.stage-row .btn{padding:8px}.nav a:nth-child(2){display:none}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+    :root {
+      --bg: #eef3fb;
+      --bg-strong: #dfe9ff;
+      --surface: rgba(255,255,255,0.8);
+      --surface-strong: #fff;
+      --ink: #1d254f;
+      --muted: #586489;
+      --line: #c7d6f5;
+      --accent: #ffb020;
+      --accent-ink: #1d254f;
+      --focus: #3b5bdb;
+      --shadow: rgba(37, 53, 101, 0.12);
+      --danger: #a52d2d;
+      --success: #2c8d5d;
+      --radius: 22px;
+    }
+    :root[data-theme="dark"] {
+      --bg: #101831;
+      --bg-strong: #1b244d;
+      --surface: rgba(27,34,80,0.9);
+      --surface-strong: #1b2250;
+      --ink: #edf3ff;
+      --muted: #a8b5df;
+      --line: #35427e;
+      --accent: #ffbf49;
+      --focus: #aab8ff;
+      --shadow: rgba(1,4,15,0.48);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #101831;
+        --bg-strong: #1b244d;
+        --surface: rgba(27,34,80,0.9);
+        --surface-strong: #1b2250;
+        --ink: #edf3ff;
+        --muted: #a8b5df;
+        --line: #35427e;
+        --accent: #ffbf49;
+        --focus: #aab8ff;
+        --shadow: rgba(1,4,15,0.48);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 8% 2%, rgba(255,176,32,0.18), transparent 25%),
+                  linear-gradient(180deg, var(--bg), var(--bg-strong));
+      color: var(--ink);
+      font-family: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.52;
+      font-size: 16px;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea { font: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+    .shell { width: min(1120px, calc(100% - 28px)); margin: 0 auto; }
+    .header { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .header-inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.02em; }
+    .brand-mark { width: 32px; height: 32px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), #ffd777); color: var(--accent-ink); border-radius: 11px; box-shadow: 0 10px 24px rgba(255,176,32,0.35); font-weight: 800; }
+    .nav { display: flex; align-items: center; gap: 18px; color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+    .nav a { transition: color 0.2s ease; }
+    .nav a:hover { color: var(--ink); }
+    .theme-toggle {
+      border: 2px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .hero { padding: 72px 0 42px; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 34px; align-items: center; }
+    .eyebrow { display: inline-block; padding: 8px 12px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 15%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 800; }
+    h1 { font-family: "Unbounded", "Onest", sans-serif; font-size: clamp(2.2rem, 5vw, 4.2rem); line-height: 0.98; letter-spacing: -0.05em; margin: 18px 0 16px; }
+    .lead { max-width: 56ch; margin: 0 0 24px; color: var(--muted); font-size: 1.08rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .btn { border: 2px solid var(--ink); background: transparent; color: var(--ink); border-radius: 12px; padding: 11px 18px; cursor: pointer; font-weight: 700; }
+    .btn.primary { background: var(--accent); border-color: var(--ink); color: var(--accent-ink); }
+    .btn.ghost { background: var(--surface); }
+    .hero-aside { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 20px 50px var(--shadow); padding: 18px; }
+    .mini-card { background: var(--surface-strong); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; }
+    .mini-card + .mini-card { margin-top: 12px; }
+    .mini-card h3 { margin: 0 0 8px; font-size: 1rem; }
+    .mini-card p { margin: 0; color: var(--muted); }
+    .section { padding: 28px 0 18px; }
+    .section-title { margin: 0 0 10px; font-family: "Unbounded", "Onest", sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.04em; }
+    .intro { margin: 0 0 12px; color: var(--muted); }
+    .planner-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr); gap: 18px; align-items: start; }
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 16px 38px var(--shadow); }
+    .panel-inner { padding: 22px; }
+    .stepper { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0 0 18px; border-bottom: 2px solid var(--line); }
+    .stepper li { padding: 10px 12px; border-bottom: 3px solid transparent; color: var(--muted); font-weight: 700; margin-bottom: -2px; }
+    .stepper li.active { color: var(--ink); border-bottom-color: var(--accent); }
+    .stepper li.done { color: var(--ink); }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-weight: 700; margin-bottom: 8px; }
+    .field input, .field textarea {
+      width: 100%; border: 1.5px solid var(--line); border-radius: 12px;
+      background: var(--surface-strong); color: var(--ink); padding: 11px 12px;
+    }
+    .field textarea { min-height: 88px; resize: vertical; }
+    .hint { color: var(--muted); margin: 0 0 12px; font-size: 0.92rem; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-strong); border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; color: var(--muted); font-size: 0.85rem; }
+    .meta { min-height: 1.5em; color: var(--muted); font-size: 0.92rem; margin-top: 12px; }
+    .document { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); }
+    .footer { padding: 18px 0 40px; color: var(--muted); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+    .assistant-panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 16px 38px var(--shadow); }
+    .assistant-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 18px 12px; border-bottom: 1px solid var(--line); }
+    .assistant-title { font-weight: 800; }
+    .assistant-body { padding: 14px 16px 16px; }
+    .assistant-key { margin: 0 0 12px; }
+    .assistant-key input { width: 100%; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface-strong); color: var(--ink); padding: 10px 12px; }
+    .assistant-messages { display: flex; flex-direction: column; gap: 9px; max-height: 340px; min-height: 220px; overflow-y: auto; margin-bottom: 12px; }
+    .bubble {
+      max-width: 90%; padding: 10px 12px; border-radius: 14px; background: var(--surface-strong);
+      border: 1px solid var(--line); white-space: pre-wrap; overflow-wrap: anywhere;
+    }
+    .bubble.user { align-self: flex-end; background: var(--accent); color: var(--accent-ink); border-color: var(--ink); }
+    .bubble.error { background: rgba(165,45,45,0.08); border-color: rgba(165,45,45,0.2); color: var(--danger); }
+    .assistant-compose { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .assistant-compose textarea { width: 100%; min-height: 58px; max-height: 140px; resize: vertical; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface-strong); color: var(--ink); padding: 10px 12px; }
+    .danger { color: var(--danger); }
+    .ok { color: var(--success); }
+    @media (max-width: 850px) {
+      .hero-grid, .planner-layout { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
   </style>
 </head>
 <body>
-  <header class="header"><div class="shell header-inner"><a class="brand" href="#home"><span class="brand-mark">П</span>План проекта</a><nav class="nav" aria-label="Навигация"><a href="#benefits">Возможности</a><a href="#how">Как это работает</a><a href="#planner">Планировщик и ИИ</a><a href="#faq">Вопросы</a></nav><button id="theme-toggle" class="theme" type="button" aria-label="Сменить тему">☼</button></div></header>
+  <header class="header">
+    <div class="shell header-inner">
+      <a href="#home" class="brand"><span class="brand-mark">П</span>План проекта</a>
+      <nav class="nav" aria-label="Навигация">
+        <a href="#planner">Планировщик</a>
+        <a href="#faq">FAQ</a>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Переключить тему">Тема</button>
+      </nav>
+    </div>
+  </header>
+
   <main id="home">
-    <section class="hero"><div class="shell hero-grid"><div><span class="eyebrow">✦ Учебный проект по шагам</span><h1>Хорошая идея заслуживает ясного плана.</h1><p class="lead">Продумай цель, составь понятные этапы и при необходимости посоветуйся с ИИ-наставником — чат теперь прямо рядом с планировщиком.</p><div class="button-row"><a class="btn primary" href="#planner">Составить план →</a><a class="btn" href="#how">Как это работает</a></div></div><aside class="preview"><h2>От идеи к результату</h2><div class="preview-item"><strong>01 · Сформулируй идею</strong><span>Опиши, что хочешь сделать и зачем.</span></div><div class="preview-item"><strong>02 · Обсуди с ИИ</strong><span>Попроси наставника задать вопросы и помочь с планом.</span></div><div class="preview-item"><strong>03 · Скачай результат</strong><span>Сохрани готовый план в PDF или текстовом виде.</span></div></aside></div></section>
-    <section class="section" id="benefits"><div class="shell"><h2 class="section-title">Всё важное — в одном месте</h2><p class="intro">Планировщик помогает не потерять идею, а ИИ-наставник помогает её обдумать. Ответы сохраняются в браузере.</p><div class="grid-3"><article class="tile"><div class="tile-icon">🧭</div><h3>Понятный маршрут</h3><p>Четыре коротких шага ведут от идеи до готового документа.</p></article><article class="tile"><div class="tile-icon">💬</div><h3>ИИ рядом</h3><p>Обсуди замысел и перенеси подготовленный черновик в форму одним нажатием.</p></article><article class="tile"><div class="tile-icon">📄</div><h3>PDF и TXT</h3><p>Скачай план, распечатай его или скопируй текст.</p></article></div></div></section>
-    <section class="section" id="how"><div class="shell"><h2 class="section-title">Начни с того, что уже знаешь</h2><p class="intro">Заполняй форму самостоятельно или начни разговор с ИИ. Ты всегда можешь проверить и отредактировать результат.</p><div class="grid-3"><article class="tile"><div class="tile-icon">1</div><h3>Расскажи о проекте</h3><p>Укажи название, предмет и основную идею.</p></article><article class="tile"><div class="tile-icon">2</div><h3>Ответь на вопросы</h3><p>Определи аудиторию, результат, ресурсы, критерии успеха и риски.</p></article><article class="tile"><div class="tile-icon">3</div><h3>Собери этапы</h3><p>Добавь задачи и сроки, затем скачай сформированный план.</p></article></div></div></section>
-    <section class="section" id="planner"><div class="shell"><h2 class="section-title">Планировщик и ИИ-помощник</h2><p class="intro">Чат встроен прямо рядом с формой. Обсуди проект с ИИ, а затем перенеси предложенный черновик в планировщик.</p><div class="planner-layout"><section class="planner-card" aria-label="Планировщик проекта"><div id="planner-app"></div></section><section class="planner-card ai-card" aria-label="Чат с ИИ-помощником"><div class="ai-heading"><h3>💡 ИИ-наставник</h3><p>Задай вопрос или расскажи идею проекта.</p></div><div id="chat-messages" class="chat-messages" aria-live="polite"><div class="bubble assistant">Привет! Какую тему или идею проекта ты рассматриваешь? Если пока не знаешь — расскажи, что тебе интересно.</div></div><form id="chat-form" class="chat-form"><textarea id="chat-input" class="chat-input" maxlength="2000" placeholder="Напиши сообщение…" aria-label="Сообщение ИИ-помощнику" required></textarea><button id="chat-send" class="btn primary" type="submit">Отправить</button></form><div class="chat-actions"><button id="apply-plan" class="btn" type="button" disabled>Перенести план</button><button id="reset-chat" class="btn" type="button">Новый диалог</button></div><p class="privacy">Не отправляй личные или чувствительные данные. Ответы ИИ — черновик, проверяй их перед использованием.</p><p id="chat-status" class="status" role="status" aria-live="polite" style="padding:0 16px"></p></section></div></div></section>
-    <section class="section" id="faq"><div class="shell"><h2 class="section-title">Частые вопросы</h2><div class="faq"><details><summary>Где хранятся мои ответы?</summary><p>В локальном хранилище браузера на этом устройстве. Они не отправляются на сервер сайта. Диалог с ИИ отправляется Worker и Gemini для ответа.</p></details><details><summary>Как скачать PDF?</summary><p>Заполни обязательные поля и перейди к шагу «План», затем нажми «Скачать PDF». Для генерации требуется интернет.</p></details><details><summary>Как включить ИИ-чат?</summary><p>Разверни Cloudflare Worker по инструкции в worker/README.md и укажи его адрес в переменной WORKER_URL в этом файле.</p></details><details><summary>Можно ли изменить предложенный план?</summary><p>Да. Перенеси его в планировщик, пройди шаги «Назад» и отредактируй любые поля и этапы.</p></details></div></div></section>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <span class="eyebrow">✦ Учебный проект по шагам</span>
+          <h1>Хорошая идея заслуживает чёткий план.</h1>
+          <p class="lead">Составь проект, ответь на ключевые вопросы, сформируй этапы и получи результат, который можно показать учителю, жюри или просто сохранить в PDF.</p>
+          <div class="actions">
+            <a href="#planner" class="btn primary">Начать планировать</a>
+            <a href="#faq" class="btn ghost">Узнать больше</a>
+          </div>
+        </div>
+        <aside class="hero-aside" aria-label="Коротко о проекте">
+          <div class="mini-card">
+            <h3>Что можно сделать</h3>
+            <p>Сформировать идею, описать целевую аудиторию, разбить проект на этапы и зафиксировать финальный план.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Почему это удобно</h3>
+            <p>Всё в одном месте: вопросы, этапы, готовый документ и ИИ-помощник для подсказок.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="planner">
+      <div class="shell planner-layout">
+        <div class="panel">
+          <div class="panel-inner" id="planner-app"></div>
+        </div>
+
+        <aside class="assistant-panel">
+          <div class="assistant-header">
+            <div class="assistant-title">ИИ-помощник</div>
+            <span class="chip">Тестовый режим</span>
+          </div>
+          <div class="assistant-body">
+            <div class="assistant-key">
+              <input id="gemini-key" type="password" placeholder="Вставь Gemini API-ключ для теста" aria-label="Gemini API-ключ">
+            </div>
+            <div id="assistant-messages" class="assistant-messages" aria-live="polite">
+              <div class="bubble assistant">Привет! Расскажи, какой проект ты хочешь сделать — а я помогу сформулировать идею и уточнить план.</div>
+            </div>
+            <div class="assistant-compose">
+              <textarea id="assistant-input" placeholder="Напиши идею или вопрос…" aria-label="Сообщение помощнику"></textarea>
+              <button id="assistant-send" class="btn primary" type="button">Отправить</button>
+            </div>
+            <div id="assistant-status" class="meta" aria-live="polite"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="shell">
+        <h2 class="section-title">Частые вопросы</h2>
+        <p class="intro">Короткие ответы о том, как использовать планировщик и когда лучше включать ИИ.</p>
+        <div class="chip-row">
+          <span class="chip">Где хранятся ответы?</span>
+          <span class="chip">Что можно сделать с готовым планом?</span>
+          <span class="chip">Что делать, если нет API-ключа?</span>
+        </div>
+      </div>
+    </section>
   </main>
-  <footer class="footer"><div class="shell footer-inner"><span>© 2026 План проекта. Сделано для учебных идей.</span><a href="#home">Наверх ↑</a></div></footer>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>© 2026 План проекта. Сделано для учебных идей.</span>
+      <a href="#home">Наверх ↑</a>
+    </div>
+  </footer>
+
   <script>
-    (function(){var root=document.documentElement,button=document.getElementById('theme-toggle'),saved=null;try{saved=localStorage.getItem('site-theme')}catch(e){}function setTheme(theme){root.setAttribute('data-theme',theme);button.textContent=theme==='dark'?'☾':'☼';button.setAttribute('aria-label',theme==='dark'?'Включить светлую тему':'Включить тёмную тему')}setTheme(saved||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));button.addEventListener('click',function(){var t=root.getAttribute('data-theme')==='dark'?'light':'dark';try{localStorage.setItem('site-theme',t)}catch(e){}setTheme(t)})})();
     (function(){
-      var app=document.getElementById('planner-app'),KEY='plan_v1',STEPS=['Идея','Вопросы','Этапы','План'];
-      var Q=['Зачем этот проект? Какую проблему он решает или что хочет показать?','Для кого он? Кто будет им пользоваться или кому он будет интересен?','Что будет готовым результатом, который можно показать?','Что тебе нужно изучить или чем пользоваться, чтобы это сделать?','Как ты поймёшь, что получилось хорошо?','Что может пойти не так и что ты будешь делать в этом случае?','Сколько у тебя времени и сколько часов в неделю ты готов на это тратить?'];
-      var DEFAULT_ST=['Изучение темы','Подготовка','Первая версия','Проверка и доработка','Оформление и защита'];
-      function fresh(){return{step:0,title:'',subject:'',idea:'',a:Q.map(function(){return''}),st:DEFAULT_ST.map(function(t){return{t:t,d:''}})}}
-      var S=fresh();try{var raw=localStorage.getItem(KEY);if(raw){var saved=JSON.parse(raw);if(saved&&Array.isArray(saved.a)&&Array.isArray(saved.st))S=saved}}catch(e){}
-      function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-      function esc(v){return String(v==null?'':v).replace(/[&<>\"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-      function missing(){var n=0;if(S.step===0){if((S.title||'').trim().length<3)n++;if((S.idea||'').trim().length<30)n++}else if(S.step===1){Q.forEach(function(_,i){if(((S.a[i])||'').trim().length<15)n++})}else if(S.step===2){S.st.forEach(function(x){if((x.t||'').trim().length<2)n++;if((x.d||'').trim().length<20)n++})}return n}
-      function ta(k,v,rows,id){return'<textarea '+(id?'id="'+id+'" ':'')+'data-k="'+k+'" rows="'+rows+'">'+esc(v)+'</textarea>'}
-      function nav(label){return'<div class="actions">'+(S.step>0?'<button class="btn" data-act="back">Назад</button>':'')+'<button class="btn primary" data-act="next">'+label+'</button></div><p class="status" id="planner-status" aria-live="polite"></p>'}
-      function view0(){return'<div class="field"><label for="title">Название проекта</label><input id="title" data-k="title" value="'+esc(S.title)+'"></div><div class="field"><label for="subject">Предмет или направление <span class="hint">(по желанию)</span></label><input id="subject" data-k="subject" value="'+esc(S.subject)+'"></div><div class="field"><label for="idea">Опиши идею своими словами</label><p class="hint">2–4 предложения, минимум 30 символов.</p>'+ta('idea',S.idea,5,'idea')+'</div>'+nav('Дальше: вопросы')}
-      function view1(){var h='<p class="hint">Отвечай своими словами — минимум 15 символов на вопрос.</p>';Q.forEach(function(q,i){h+='<div class="field"><label for="answer-'+i+'">'+esc(q)+'</label>'+ta('a'+i,S.a[i],3,'answer-'+i)+'</div>'});return h+nav('Дальше: этапы')}
-      function view2(){var h='<p class="hint">Для каждого этапа напиши, что и к какому сроку сделаешь.</p>';S.st.forEach(function(x,i){h+='<div class="field"><div class="stage-row"><input data-k="t'+i+'" value="'+esc(x.t)+'" aria-label="Название этапа '+(i+1)+'">'+(S.st.length>2?'<button class="btn" data-act="remove" data-i="'+i+'">Убрать</button>':'')+'</div>'+ta('d'+i,x.d,3)+'</div>'});return h+'<button class="btn" data-act="add">＋ Добавить этап</button>'+nav('Собрать план')}
-      function documentText(){var L=['ПЛАН УЧЕБНОГО ПРОЕКТА','Название: '+S.title];if(S.subject)L.push('Предмет: '+S.subject);L.push('Дата: '+new Date().toLocaleDateString('ru-RU'),'','ИДЕЯ',S.idea,'','ВОПРОСЫ О ПРОЕКТЕ');Q.forEach(function(q,i){L.push('',q,S.a[i]||'')});L.push('','ЭТАПЫ');S.st.forEach(function(x,i){L.push('',(i+1)+'. '+x.t,x.d)});return L.join('\n')}
-      function view3(){return'<h3>Твой план готов</h3><p class="hint">Скачай PDF или текстовый файл, скопируй план или вернись к редактированию.</p><p class="plan-preview">'+esc(documentText())+'</p><div class="actions"><button class="btn" data-act="back">Назад</button><button class="btn primary" data-act="pdf">⬇ Скачать PDF</button><button class="btn" data-act="txt">Скачать TXT</button><button class="btn" data-act="copy">Копировать</button><button class="btn" data-act="reset">Начать заново</button></div><p class="status" id="planner-status" aria-live="polite"></p>'}
-      function message(text){var el=app.querySelector('#planner-status');if(el)el.textContent=text}
-      function gate(){var n=missing(),b=app.querySelector('[data-act="next"]');if(b)b.disabled=n>0;var el=app.querySelector('#planner-status');if(el&&n)el.textContent='Осталось заполнить полей: '+n+'. Пиши развёрнуто и своими словами.'}
-      function render(){app.innerHTML='<ol class="steps" aria-label="Шаги планирования">'+STEPS.map(function(x,i){return'<li'+(i===S.step?' aria-current="step"':'')+(i<S.step?' class="done"':'')+'>'+(i+1)+'. '+x+'</li>'}).join('')+'</ol><div>'+[view0,view1,view2,view3][S.step]()+'</div>';gate()}
-      function filename(name){return(name||'plan-proekta').toLowerCase().replace(/[^a-z0-9а-яё]+/gi,'-').replace(/^-|-$/g,'')||'plan-proekta'}
-      function downloadPdf(button){if(!window.html2pdf){message('PDF-модуль не загрузился. Проверь интернет или скачай TXT.');return}button.disabled=true;message('Готовим PDF…');var node=document.createElement('article');node.className='pdf-document';node.innerHTML='<h1>План учебного проекта</h1><p><strong>'+esc(S.title)+'</strong>'+(S.subject?' · '+esc(S.subject):'')+'</p><p>Дата: '+new Date().toLocaleDateString('ru-RU')+'</p><h2>Идея проекта</h2><p>'+esc(S.idea)+'</p><h2>Вопросы о проекте</h2>'+Q.map(function(q,i){return'<div class="pdf-stage"><p><strong>'+esc(q)+'</strong></p><p>'+esc(S.a[i])+'</p></div>'}).join('')+'<h2>Этапы работы</h2>'+S.st.map(function(x,i){return'<div class="pdf-stage"><p><strong>'+(i+1)+'. '+esc(x.t)+'</strong></p><p>'+esc(x.d)+'</p></div>'}).join('');document.body.appendChild(node);window.html2pdf().set({margin:[12,12,14,12],filename:filename(S.title)+'.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2,backgroundColor:'#fff',logging:false},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}}).from(node).save().then(function(){message('PDF скачан.')}).catch(function(){message('Не удалось создать PDF. Попробуй скачать TXT.')}).finally(function(){node.remove();button.disabled=false})}
-      function downloadTxt(){var blob=new Blob(['\uFEFF'+documentText()],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename(S.title)+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);message('Текстовый файл скачан.')}
-      function copyText(){var text=documentText();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){message('План скопирован.')},function(){message('Не получилось скопировать; скачай TXT.')})}else{var node=document.createElement('textarea');node.value=text;document.body.appendChild(node);node.select();try{document.execCommand('copy');message('План скопирован.')}catch(e){message('Не получилось скопировать.')}node.remove()}}
-      function applyAssistantPlan(plan){if(!plan||!Array.isArray(plan.answers)||plan.answers.length!==7||!Array.isArray(plan.stages)||plan.stages.length<2)return;S={step:3,title:String(plan.title||''),subject:String(plan.subject||''),idea:String(plan.idea||''),a:plan.answers.map(function(x){return String(x||'')}),st:plan.stages.map(function(x){return{t:String(x.title||''),d:String(x.details||'')}})};save();render();app.scrollIntoView({behavior:'smooth',block:'start'});message('Черновик ИИ перенесён. Проверь и отредактируй его перед использованием.')}
-      window.addEventListener('project-plan-from-assistant',function(e){applyAssistantPlan(e.detail)});
-      app.addEventListener('input',function(e){var k=e.target.getAttribute('data-k');if(!k)return;var i=Number(k.slice(1));if(/^a\d+$/.test(k))S.a[i]=e.target.value;else if(/^t\d+$/.test(k))S.st[i].t=e.target.value;else if(/^d\d+$/.test(k))S.st[i].d=e.target.value;else S[k]=e.target.value;save();gate()});
-      app.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b||b.disabled)return;var a=b.getAttribute('data-act');if(a==='next'){S.step=Math.min(3,S.step+1);save();render()}else if(a==='back'){S.step=Math.max(0,S.step-1);save();render()}else if(a==='add'){S.st.push({t:'',d:''});save();render()}else if(a==='remove'){S.st.splice(Number(b.getAttribute('data-i')),1);save();render()}else if(a==='pdf')downloadPdf(b);else if(a==='txt')downloadTxt();else if(a==='copy')copyText();else if(a==='reset'){if(confirm('Удалить заполненный план и начать заново?')){S=fresh();try{localStorage.removeItem(KEY)}catch(x){}render()}}});render();
+      var root = document.documentElement;
+      var savedTheme = null;
+      try { savedTheme = localStorage.getItem('site-theme'); } catch (e) {}
+      function applyTheme(theme){
+        if (theme === 'dark') {
+          root.setAttribute('data-theme', 'dark');
+        } else {
+          root.setAttribute('data-theme', 'light');
+        }
+      }
+      function initTheme(){
+        if (savedTheme === 'dark') applyTheme('dark');
+        else if (savedTheme === 'light') applyTheme('light');
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+        else applyTheme('light');
+      }
+      function toggleTheme(){
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        try { localStorage.setItem('site-theme', next); } catch (e) {}
+      }
+      initTheme();
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
     })();
+
     (function(){
-      // После развёртывания Worker укажи URL с окончанием /api/assistant.
-      var WORKER_URL='https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev/api/assistant';
-      var form=document.getElementById('chat-form'),input=document.getElementById('chat-input'),send=document.getElementById('chat-send'),messagesEl=document.getElementById('chat-messages'),status=document.getElementById('chat-status'),apply=document.getElementById('apply-plan');
-      var history=[],latestPlan=null,busy=false;
-      function addBubble(text,kind){var el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;messagesEl.appendChild(el);messagesEl.scrollTop=messagesEl.scrollHeight;return el}
-      function canApply(p){return!!(p&&typeof p.title==='string'&&typeof p.subject==='string'&&typeof p.idea==='string'&&Array.isArray(p.answers)&&p.answers.length===7&&Array.isArray(p.stages)&&p.stages.length>=2)}
-      form.addEventListener('submit',async function(e){e.preventDefault();var text=input.value.trim();if(!text||busy)return;if(WORKER_URL.indexOf('YOUR-WORKER-NAME')!==-1){status.textContent='Чтобы включить ИИ, разверни Worker и укажи его адрес в WORKER_URL. Инструкция находится в worker/README.md.';return}addBubble(text,'user');history.push({role:'user',text:text});input.value='';status.textContent='';busy=true;send.disabled=true;send.textContent='Думаю…';input.disabled=true;
-        try{var response=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history.slice(-12)})});var data=await response.json();if(!response.ok)throw new Error(data.error||'Помощник временно недоступен.');var reply=typeof data.reply==='string'?data.reply:'Готово.';history.push({role:'model',text:reply});addBubble(reply,'assistant');latestPlan=data.plan||null;apply.disabled=!canApply(latestPlan);status.textContent=latestPlan?'ИИ подготовил черновик, его можно перенести в планировщик.':''}
-        catch(err){history.pop();addBubble(err.message||'Не удалось связаться с ИИ.','error');status.textContent='Проверь соединение и настройки Worker.'}
-        finally{busy=false;send.disabled=false;send.textContent='Отправить';input.disabled=false;input.focus()}
+      var app = document.getElementById('planner-app');
+      var KEY = 'plan_v1';
+      var STEPS = ['Идея', 'Вопросы', 'Этапы', 'План'];
+      var Q = [
+        'Зачем этот проект? Какую проблему он решает или что хочет показать?',
+        'Для кого он? Кто будет им пользоваться или кому он будет интересен?',
+        'Что будет готовым результатом, который можно показать?',
+        'Что тебе нужно изучить и какие инструменты или материалы понадобятся?',
+        'Как ты поймёшь, что получилось хорошо?',
+        'Что может пойти не так и что будешь делать в этом случае?',
+        'Сколько времени есть и сколько часов в неделю ты готов тратить?'
+      ];
+      var ST = ['Изучение темы', 'Подготовка', 'Первая версия', 'Проверка и доработка', 'Оформление и защита'];
+
+      function fresh(){
+        return {
+          step: 0,
+          title: '',
+          subject: '',
+          idea: '',
+          a: Q.map(function(){ return ''; }),
+          st: ST.map(function(t){ return { t: t, d: '' }; })
+        };
+      }
+
+      var S = fresh();
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (raw) {
+          var o = JSON.parse(raw);
+          if (o && Array.isArray(o.a) && Array.isArray(o.st)) S = o;
+        }
+      } catch (e) {}
+
+      function save(){
+        try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+      }
+
+      function esc(v){
+        return String(v == null ? '' : v).replace(/[&<>\"]/g, function(c){
+          return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\\':'\\'}[c] || c;
+        });
+      }
+
+      function len(s){ return (s || '').trim().length; }
+
+      function missing(){
+        var n = 0;
+        if (S.step === 0) {
+          if (len(S.title) < 3) n++;
+          if (len(S.idea) < 30) n++;
+        } else if (S.step === 1) {
+          Q.forEach(function(_, i){ if (len(S.a[i]) < 15) n++; });
+        } else if (S.step === 2) {
+          S.st.forEach(function(x){ if (len(x.t) < 2 || len(x.d) < 20) n++; });
+        }
+        return n;
+      }
+
+      function renderStepper(){
+        return '<ol class="stepper">' + STEPS.map(function(step, i){
+          var cls = i === S.step ? 'active' : (i < S.step ? 'done' : '');
+          return '<li class="' + cls + '">' + (i + 1) + '. ' + step + '</li>';
+        }).join('') + '</ol>';
+      }
+
+      function ta(k, v, rows, id){
+        return '<textarea ' + (id ? 'id="' + id + '" ' : '') + 'data-k="' + k + '" rows="' + rows + '">' + esc(v || '') + '</textarea>';
+      }
+
+      function nav(label){
+        return '<div class="actions">' + (S.step > 0 ? '<button type="button" class="btn" data-act="back">Назад</button>' : '') + '<button type="button" class="btn primary" data-act="next">' + label + '</button></div><div id="status" class="meta"></div>';
+      }
+
+      function view0(){
+        return renderStepper() +
+          '<div class="field"><label for="title">Название проекта</label><input id="title" data-k="title" value="' + esc(S.title) + '"></div>' +
+          '<div class="field"><label for="subject">Предмет или направление</label><input id="subject" data-k="subject" value="' + esc(S.subject) + '"></div>' +
+          '<div class="field"><label for="idea">Опиши идею своими словами</label><p class="hint">2–4 предложения: что хочешь сделать и зачем. Не меньше 30 символов.</p>' + ta('idea', S.idea, 5, 'idea') + '</div>' + nav('Дальше: вопросы');
+      }
+
+      function view1(){
+        var html = renderStepper() + '<p class="hint">Отвечай своими словами, минимум 15 символов на вопрос. Здесь нет правильных ответов — важны твои мысли.</p>';
+        Q.forEach(function(q, i){
+          html += '<div class="field"><label>' + esc(q) + '</label>' + ta('a' + i, S.a[i], 3) + '</div>';
+        });
+        return html + nav('Дальше: этапы');
+      }
+
+      function view2(){
+        var html = renderStepper() + '<p class="hint">Разбей проект на этапы. Названия можно менять, этапы можно добавлять или удалять.</p>';
+        S.st.forEach(function(x, i){
+          var remove = S.st.length > 2 ? '<button type="button" class="btn" data-act="rm" data-i="' + i + '">Убрать</button>' : '';
+          html += '<div class="field"><div class="actions" style="margin-top:0; margin-bottom:8px;">' +
+            '<input data-k="t' + i + '" value="' + esc(x.t) + '" aria-label="Название этапа" style="flex:1;">' +
+            remove +
+            '</div>' + ta('d' + i, x.d, 3) + '</div>';
+        });
+        html += '<div class="field"><button type="button" class="btn ghost" data-act="add">Добавить этап</button></div>' + nav('Собрать план');
+        return html;
+      }
+
+      function buildDoc(){
+        var lines = ['ПЛАН ПРОЕКТА', 'Название: ' + S.title];
+        if (S.subject) lines.push('Предмет: ' + S.subject);
+        lines.push('Дата: ' + new Date().toLocaleDateString('ru-RU'));
+        lines.push('', 'ИДЕЯ', S.idea, '', 'ВОПРОСЫ О ПРОЕКТЕ');
+        Q.forEach(function(q, i){ lines.push('', q, S.a[i]); });
+        lines.push('', 'ЭТАПЫ');
+        S.st.forEach(function(x, i){ lines.push('', (i + 1) + '. ' + x.t, x.d); });
+        return lines.join('\n');
+      }
+
+      function view3(){
+        return renderStepper() +
+          '<div class="field"><h3 style="margin:0 0 10px;">Твой план готов</h3><p class="hint">Скопируй, скачай как файл, распечатай или сохрани в PDF.</p><div class="document">' + esc(buildDoc()) + '</div></div>' +
+          '<div class="actions"><button type="button" class="btn" data-act="back">Назад</button><button type="button" class="btn primary" data-act="dl">Скачать .txt</button><button type="button" class="btn ghost" data-act="copy">Копировать</button><button type="button" class="btn ghost" data-act="print">Печать / PDF</button><button type="button" class="btn ghost" data-act="reset">Начать заново</button></div><div id="status" class="meta"></div>';
+      }
+
+      function render(){
+        app.innerHTML = [view0, view1, view2, view3][S.step]();
+        var status = document.getElementById('status');
+        if (status) {
+          var n = missing();
+          status.textContent = n ? 'Осталось заполнить полей: ' + n + '.' : '';
+        }
+        bindControls();
+      }
+
+      function bindControls(){
+        app.querySelectorAll('[data-act="next"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            var n = missing();
+            if (n > 0) {
+              var st = document.getElementById('status');
+              if (st) st.textContent = 'Проверь заполнение: осталось ' + n + ' полей.';
+              return;
+            }
+            S.step = Math.min(S.step + 1, 3);
+            save();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            render();
+          });
+        });
+
+        app.querySelectorAll('[data-act="back"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            S.step = Math.max(S.step - 1, 0);
+            save();
+            render();
+          });
+        });
+
+        app.querySelectorAll('[data-act="add"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            S.st.push({ t: 'Новый этап', d: '' });
+            save();
+            render();
+          });
+        });
+
+        app.querySelectorAll('[data-act="rm"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            var i = Number(btn.getAttribute('data-i'));
+            if (S.st.length > 2) {
+              S.st.splice(i, 1);
+              save();
+              render();
+            }
+          });
+        });
+
+        app.querySelectorAll('[data-act="dl"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            var blob = new Blob(['\uFEFF' + buildDoc()], { type: 'text/plain;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url; a.download = 'plan-proekta.txt';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+            var st = document.getElementById('status'); if (st) st.textContent = 'Файл plan-proekta.txt скачан.';
+          });
+        });
+
+        app.querySelectorAll('[data-act="copy"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            var text = buildDoc();
+            navigator.clipboard.writeText(text).then(function(){
+              var st = document.getElementById('status'); if (st) st.textContent = 'План скопирован.';
+            }).catch(function(){
+              var st = document.getElementById('status'); if (st) st.textContent = 'Скопируй текст вручную.';
+            });
+          });
+        });
+
+        app.querySelectorAll('[data-act="print"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            window.print();
+          });
+        });
+
+        app.querySelectorAll('[data-act="reset"]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            S = fresh(); save(); render();
+          });
+        });
+
+        app.querySelectorAll('input, textarea').forEach(function(el){
+          var k = el.getAttribute('data-k');
+          if (!k) return;
+          el.value = el.value || '';
+          el.addEventListener('input', function(){
+            var v = el.value;
+            if (/^a\d+$/.test(k)) {
+              S.a[Number(k.slice(1))] = v;
+            } else if (/^t\d+$/.test(k)) {
+              S.st[Number(k.slice(1))].t = v;
+            } else if (/^d\d+$/.test(k)) {
+              S.st[Number(k.slice(1))].d = v;
+            } else {
+              S[k] = v;
+            }
+            save();
+            render();
+          });
+        });
+      }
+
+      render();
+    })();
+
+    (function(){
+      var keyInput = document.getElementById('gemini-key');
+      var input = document.getElementById('assistant-input');
+      var send = document.getElementById('assistant-send');
+      var messages = document.getElementById('assistant-messages');
+      var status = document.getElementById('assistant-status');
+      var history = [];
+      var busy = false;
+
+      function addMessage(text, kind){
+        var div = document.createElement('div');
+        div.className = 'bubble ' + kind;
+        div.textContent = text;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      function getKey(){
+        return (keyInput.value || '').trim();
+      }
+
+      function saveKey(){
+        try { localStorage.setItem('gemini-key', getKey()); } catch (e) {}
+      }
+
+      function loadKey(){
+        try {
+          var raw = localStorage.getItem('gemini-key');
+          if (raw) keyInput.value = raw;
+        } catch (e) {}
+      }
+
+      async function askGemini(prompt, key){
+        var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(key);
+        var response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: 'Ты — полезный ИИ-наставник для школьников и студентов. Помогай придумывать и структурировать учебный проект, задавай по одному уточняющему вопросу за раз, отвечай на русском языке и не делай работу вместо пользователя.' }] },
+            contents: history.concat([{ role: 'user', parts: [{ text: prompt }] }]),
+            generationConfig: { temperature: 0.7, maxOutputTokens: 700 }
+          })
+        });
+        var data = await response.json();
+        if (!response.ok) {
+          throw new Error(data && data.error && data.error.message ? data.error.message : 'Ошибка API Gemini');
+        }
+        return data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts
+          ? data.candidates[0].content.parts.map(function(part){ return part.text || ''; }).join('')
+          : 'Пустой ответ от модели.';
+      }
+
+      keyInput.addEventListener('input', saveKey);
+      loadKey();
+
+      send.addEventListener('click', async function(){
+        var text = (input.value || '').trim();
+        var key = getKey();
+        if (!text) return;
+        if (!key) {
+          status.textContent = 'Сначала вставь Gemini API-ключ.';
+          keyInput.focus();
+          return;
+        }
+        if (busy) return;
+        busy = true;
+        send.disabled = true;
+        status.textContent = 'Отправляем запрос…';
+        addMessage(text, 'user');
+        history.push({ role: 'user', parts: [{ text: text }] });
+        input.value = '';
+
+        try {
+          var answer = await askGemini(text, key);
+          addMessage(answer, 'assistant');
+          status.textContent = 'Готово.';
+          history.push({ role: 'model', parts: [{ text: answer }] });
+        } catch (err) {
+          addMessage('Ошибка: ' + err.message, 'error');
+          status.textContent = 'Проверь API-ключ и интернет-соединение.';
+        } finally {
+          busy = false;
+          send.disabled = false;
+          input.focus();
+        }
       });
-      apply.addEventListener('click',function(){if(!canApply(latestPlan))return;window.dispatchEvent(new CustomEvent('project-plan-from-assistant',{detail:latestPlan}));status.textContent='Черновик перенесён. Проверь поля планировщика.'});
-      document.getElementById('reset-chat').addEventListener('click',function(){history=[];latestPlan=null;apply.disabled=true;messagesEl.innerHTML='';addBubble('Привет! Какую тему или идею проекта ты рассматриваешь? Если пока не знаешь — расскажи, что тебе интересно.','assistant');status.textContent='';input.value='';input.focus()});
-      input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
+
+      input.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          send.click();
+        }
+      });
     })();
   </script>
 </body>
