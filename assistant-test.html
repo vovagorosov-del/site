@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Тестовый чат ИИ-наставника для учебных проектов">
+  <meta name="theme-color" content="#eef3fb">
+  <title>Тест ИИ-помощника — План проекта</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:light;--bg:#eef3fb;--bg2:#dfe9ff;--surface:#fff;--ink:#1d254f;--muted:#586489;--line:#c7d6f5;--accent:#ffb020;--focus:#3b5bdb;--shadow:rgba(37,53,101,.12)}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);font:16px/1.55 Onest,system-ui,sans-serif}.shell{width:min(820px,calc(100% - 28px));margin:auto}.top{padding:20px 0}.top a{font-weight:700;color:var(--ink);text-decoration:none}.top a:hover{text-decoration:underline}main{padding:18px 0 52px}h1{font:600 clamp(1.7rem,5vw,2.7rem)/1.15 Unbounded,Onest,sans-serif;margin:0 0 10px}.intro{color:var(--muted);margin:0 0 18px}.warning{padding:14px 16px;border:1px solid #e4b85e;border-radius:12px;background:#fff7df;color:#654600;font-size:.92rem;margin:16px 0}.key-panel,.chat{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 34px var(--shadow)}.key-panel{padding:16px;margin-bottom:16px}.key-panel label{display:block;font-weight:700;margin-bottom:7px}.key-row{display:flex;gap:9px}.key-row input{min-width:0;flex:1}.input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--bg);color:var(--ink);font:inherit}.btn{border:2px solid var(--ink);border-radius:10px;background:transparent;color:var(--ink);padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.btn.primary{background:var(--accent)}.btn:disabled{opacity:.55;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.key-help{color:var(--muted);font-size:.84rem;margin:8px 0 0}.messages{height:min(56vh,560px);min-height:300px;overflow:auto;display:flex;flex-direction:column;gap:11px;padding:17px}.bubble{max-width:88%;padding:11px 14px;border-radius:14px;background:var(--bg);white-space:pre-wrap;overflow-wrap:anywhere}.bubble.user{align-self:flex-end;background:var(--accent)}.bubble.assistant{align-self:flex-start;border:1px solid var(--line)}.bubble.error{align-self:flex-start;border:1px solid #d88;color:#a22}.composer{padding:12px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:9px}.composer textarea{min-height:52px;max-height:150px;resize:vertical}.status{min-height:1.5em;color:var(--muted);font-size:.9rem;margin:10px 2px}.privacy{color:var(--muted);font-size:.86rem}.footer{margin-top:24px;color:var(--muted);font-size:.9rem}@media(max-width:560px){.key-row,.composer{grid-template-columns:1fr;display:grid}.key-row .btn,.composer .btn{width:100%}.messages{height:48vh;min-height:260px}.bubble{max-width:96%}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="shell"><a href="./">← Вернуться к сайту</a></div></header>
+  <main class="shell">
+    <h1>Тест ИИ-помощника</h1>
+    <p class="intro">Вставь свой Gemini API-ключ в поле ниже и проверь чат. Ключ нужен только на этой странице, в код сайта он не записывается.</p>
+    <div class="warning"><strong>Только для личного теста.</strong> Прямой вызов Gemini из браузера не подходит для публичного использования: ключ можно увидеть в инструментах разработчика и сетевом запросе. Не присылай ключ в чат и не сохраняй страницу с ключом. Для общего сайта используй Cloudflare Worker.</div>
+    <section class="key-panel" aria-label="Настройка тестового ключа"><label for="api-key">Gemini API-ключ</label><div class="key-row"><input id="api-key" class="input" type="password" autocomplete="off" spellcheck="false" placeholder="Вставь ключ для этого теста"><button id="clear-key" class="btn" type="button">Очистить</button></div><p class="key-help">Ключ не сохраняется в localStorage или файлах. Он используется только для запросов из этой вкладки к Google Gemini.</p></section>
+    <section class="chat" aria-label="Чат с ИИ-наставником"><div id="messages" class="messages" aria-live="polite"><div class="bubble assistant">Привет! Расскажи, какую тему или идею проекта ты рассматриваешь. Я помогу продумать её и составить план.</div></div><form id="chat-form" class="composer"><textarea id="message" class="input" maxlength="2000" placeholder="Напиши сообщение…" aria-label="Сообщение помощнику" required></textarea><button id="send" class="btn primary" type="submit">Отправить</button></form></section>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <p class="privacy">Не отправляй личные, школьные учётные или другие чувствительные данные. Запрос отправляется Google Gemini и может расходовать квоту API.</p>
+    <p class="footer">Для включения помощника на основном сайте настрой Cloudflare Worker по инструкции в <a href="worker/README.md">worker/README.md</a>.</p>
+  </main>
+  <script>
+    (function(){
+      var MODEL='gemini-2.5-flash';
+      var SYSTEM='Ты — доброжелательный ИИ-наставник для школьников и студентов. Помогай им самостоятельно обдумывать учебные проекты, не выполняй работу за них. Общайся на русском, поддерживай, задавай по одному уточняющему вопросу за раз. Не придумывай факты. Предлагай реалистичные идеи, цели и этапы только как варианты для обсуждения.';
+      var keyInput=document.getElementById('api-key'),input=document.getElementById('message'),send=document.getElementById('send'),messagesEl=document.getElementById('messages'),status=document.getElementById('status'),form=document.getElementById('chat-form');
+      var history=[],busy=false;
+      function add(text,kind){var el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;messagesEl.appendChild(el);messagesEl.scrollTop=messagesEl.scrollHeight}
+      form.addEventListener('submit',async function(event){event.preventDefault();var text=input.value.trim(),key=keyInput.value.trim();if(busy||!text)return;if(!key){status.textContent='Сначала вставь Gemini API-ключ в верхнее поле.';keyInput.focus();return}if(text.length>2000){status.textContent='Сообщение слишком длинное.';return}if(history.length>=20){status.textContent='В тестовом диалоге достигнут лимит сообщений. Очисти чат, чтобы начать заново.';return}
+        add(text,'user');history.push({role:'user',parts:[{text:text}]});input.value='';busy=true;send.disabled=true;send.textContent='Думаю…';status.textContent='Отправляем запрос Gemini…';
+        try{var url='https://generativelanguage.googleapis.com/v1beta/models/'+MODEL+':generateContent?key='+encodeURIComponent(key);var response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:SYSTEM}]},contents:history,generationConfig:{temperature:.65,maxOutputTokens:900}})});var data=await response.json();if(!response.ok){var reason=data&&data.error&&data.error.message?data.error.message:'Ошибка Gemini API';throw new Error(reason)}var answer=data&&data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts?data.candidates[0].content.parts.map(function(part){return part.text||''}).join(''):'';if(!answer)throw new Error('Gemini вернул пустой ответ. Попробуй ещё раз.');history.push({role:'model',parts:[{text:answer}]});add(answer,'assistant');status.textContent='Ответ получен.'}
+        catch(error){history.pop();add('Не получилось получить ответ: '+(error.message||'ошибка сети'),'error');status.textContent='Проверь API-ключ, соединение и квоты Gemini.'}
+        finally{busy=false;send.disabled=false;send.textContent='Отправить';input.focus()}
+      });
+      input.addEventListener('keydown',function(event){if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();form.requestSubmit()}});
+      document.getElementById('clear-key').addEventListener('click',function(){keyInput.value='';keyInput.focus();status.textContent='Поле ключа очищено.'});
+    })();
+  </script>
+</body>
+</html>
